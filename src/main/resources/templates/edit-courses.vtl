@@ -1,0 +1,22 @@
+<h2>Edit $course.getCourseName():</h2>
+
+<form action="/courses/$course.getId()/edit" method="post">
+
+    <div class="form-group">
+      <label for="course_name">Course Name</label>
+      <input id="course_name" name="course_name" type="text" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <label for="course_num">Course number</label>
+      <input id="course_num" name="course_num" type="text" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <label for="description">Desciption</label>
+      <input id="description" name="description" type="text" class="form-control">
+    </div>
+
+    <button type="submit">Update</button>
+
+  </form>

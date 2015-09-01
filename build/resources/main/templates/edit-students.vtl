@@ -1,0 +1,32 @@
+<h2>Edit $student.getName()</h2>
+
+  <form action="/student/$student.getId()/edit" method="post">
+
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input id="name" name="name" type="text" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <label for="enrollment">Enrollment</label>
+      <input id="enrollment" name="enrollment" type="date" class="form-control">
+    </div>
+
+
+    <button type="submit">Add</button>
+
+  </form>
+
+<h2>Add Courses for $student.getName()</h2>
+  <form action="/students/$student.getId()/addcourse" method="post">
+    <div>
+      <label for="course_id">Select a course</label>
+      <select id="course_id" name="course_id" type="text">
+        #foreach($course in $courses)
+        <option value="$course.getId()">$course.getCourseName()</option>
+        #end
+      </select>
+      <button type="submit">Add course</button>
+    </div>
+  </form>
+<center><a href="/">Home</a></center>
