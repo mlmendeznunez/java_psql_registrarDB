@@ -62,7 +62,7 @@ public class StudentTest {
      }
 
      @Test
-     public void getCourses_returnsAllCourses_ArrayList() {
+     public void getStudents_returnsAllCourses_ArrayList() {
        Course myCourse = new Course("name", "coursenumb", "what is it about");
        myCourse.save();
 
@@ -73,5 +73,19 @@ public class StudentTest {
        List savedCourses = myStudent.getCourses();
        assertEquals(savedCourses.size(), 1);
      }
+
+     @Test
+     public void delete_deletesAllStudentsAndListAssociation() {
+       Course myCourse = new Course("Anatomy", "Sci100", "study your interior");
+       myCourse.save();
+
+       Student myStudent = new Student ("name", "enrollment");
+       myStudent.save();
+
+       myStudent.addCourse(myCourse);
+       myStudent.delete();
+       assertEquals(myCourse.getStudents().size(), 0);
+     }
+
 
  }

@@ -88,28 +88,41 @@ public class Course {
     }
   }
 
-    public ArrayList<Student> getStudents() {
-      //grabs student ids from a course
-      try(Connection con = DB.sql2o.open()) {
-        String sql = "SELECT student_id FROM courses_students WHERE course_id=:course_id";
-        List<Integer> studentIds = con.createQuery(sql)
-        .addParameter("course_id", this.getId())
-        .executeAndFetch(Integer.class);
+  public ArrayList<Student> getStudents() {
+    //grabs student ids from a course
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "SELECT student_id FROM courses_students WHERE course_id=:course_id";
+      List<Integer> studentIds = con.createQuery(sql)
+      .addParameter("course_id", this.getId())
+      .executeAndFetch(Integer.class);
 
-        //declare empty array to push all students ids that match to the courseid
-        ArrayList<Student> students = new ArrayList<Student>();
+      //declare empty array to push all students ids that match to the courseid
+      ArrayList<Student> students = new ArrayList<Student>();
 
-        //looping through the student index in order to grab all students that match course_id
-        for(Integer index : studentIds) { //for index in student Ids
-          String studentQuery = "SELECT * FROM students WHERE Id = :index";
-          Student student = con.createQuery(studentQuery)
-            .addParameter("index", index)
-            .executeAndFetchFirst(Student.class);
-            students.add(student);
-        }return students;
-      }
-
+      //looping through the student index in order to grab all students that match course_id
+      for(Integer index : studentIds) { //for index in student Ids
+        String studentQuery = "SELECT * FROM students WHERE Id = :index";
+        Student student = con.createQuery(studentQuery)
+          .addParameter("index", index)
+          .executeAndFetchFirst(Student.class);
+          students.add(student);
+      }return students;
     }
+  }
+
+  public void delete() {
+    try(Connection con = DB.sql2o.open()) {
+      String deleteQuery = "DELETE FROM courses WHERE id=:id";
+        con.createQuery(deleteQuery)
+          .addParameter("id", id)
+          .executeUpdate();
+
+      String joinDeleteQuery = "DELETE FROM courses_students WHERE course_id =:course_id";
+        con.createQuery(joinDeleteQuery)
+          .addParameter("course_id", this.getId())
+          .executeUpdate();
+    }
+  }
 
 
 

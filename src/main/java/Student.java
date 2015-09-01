@@ -105,4 +105,18 @@ public class Student {
     }
   }
 
+  public void delete() {
+    try(Connection con = DB.sql2o.open()) {
+      String deleteQuery = "DELETE FROM students WHERE id=:id";
+      con.createQuery(deleteQuery)
+      .addParameter("id", id)
+      .executeUpdate();
+
+      String joinDeleteQuery = "DELETE from courses_students WHERE student_id=:student_id";
+      con.createQuery(joinDeleteQuery)
+        .addParameter("student_id", this.getId())
+        .executeUpdate();
+    }
+  }
+
 }//ends class Student

@@ -59,6 +59,18 @@ public class CourseTest {
     //assertEquals(Student.all().get(0).equals(myStudent));
   }
 
+  @Test
+  public void delete_deletesCourseAndListAssociations() {
+    Course myCourse = new Course("Banking", "B001", "Learn to steal money");
+    myCourse.save();
+
+    Student myStudent = new Student("Mary Lou", "1984");
+    myStudent.save();
+
+    myStudent.addCourse(myCourse);
+    myCourse.delete();
+    assertEquals(myCourse.getStudents().size(), 0);
+  }
 
 
 
