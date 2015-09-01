@@ -51,4 +51,16 @@ public class Course {
       }
   }
 
+  public void save() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql ="INSERT INTO courses (course_name, course_num, description) values (:course_name, :course_num, :description)";
+      this.id = (int) con.createQuery(sql, true)
+        .addParameter("course_name", this.course_name)
+        .addParameter("course_num", this.course_num)
+        .addParameter("description", this.description)
+        .executeUpdate()
+        .getKey();
+    }
+  }
+
 }

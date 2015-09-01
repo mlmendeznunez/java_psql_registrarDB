@@ -42,5 +42,16 @@ public class Student {
     }
   }
 
+  public void save() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "INSERT INTO students (name, enrollment) VALUES (:name, :enrollment)";
+      this.id = (int) con.createQuery(sql, true)
+        .addParameter("name", this.name)
+        .addParameter("enrollment", this.enrollment)
+        .executeUpdate()
+        .getKey();
+    }
+  }
+
 
 }

@@ -15,5 +15,18 @@ public class StudentTest {
        assertEquals(Student.all().size(), 0);
      }
 
+     @Test
+     public void equals_returnsTrueIfStudentsAreTheSame() {
+       Student newStudent = new Student("Mary Blue", "9/9/1999");
+       Student secondStudent = new Student("Mary Blue", "9/9/1999");
+       assertTrue(newStudent.equals(secondStudent));
+     }
+
+     @Test
+     public void save_savesIntoDatabase_true() {
+       Student newStudent = new Student("Mary Blue", "9/9/1999");
+       newStudent.save();
+       assertTrue(Student.all().get(0).equals(newStudent));
+     }
 
  }

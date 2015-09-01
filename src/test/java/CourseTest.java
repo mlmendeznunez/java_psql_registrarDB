@@ -15,5 +15,17 @@ public class CourseTest {
     assertEquals(Course.all().size(), 0);
   }
 
+  @Test
+  public void equals_returnsTrueIfCoursesAreTheSame() {
+    Course firstCourse = new Course("Programming", "C001", "java");
+    Course secondCourse = new Course("Programming", "C001", "java");
+    assertTrue(firstCourse.equals(secondCourse));
+  }
 
+  @Test
+  public void save_savesIntoDatabase_true () {
+    Course newCourse = new Course ("Programming", "C001", "java");
+    newCourse.save();
+    assertTrue(Course.all().get(0).equals(newCourse));
+  }
 }
