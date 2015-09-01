@@ -12,8 +12,8 @@ public class CourseTest {
 
   @Test
   public void all_emptyAtFirst() {
-    assertEquals(Category.all().size(), 0);
+    assertEquals(Course.all().size(), 0);
   }
 
-  
+
 }
