@@ -63,5 +63,46 @@ public class Student {
     }
   }
 
+  public void update(String name, String enrollment) {
+    this.name = name;
+    this.enrollment = enrollment;
+      try(Connection con = DB.sql2o.open()) {
+        String sql = "UPDATE students SET name=:name, enrollment=:enrollment WHERE id=:id";
+        con.createQuery(sql)
+          .addParameter("name", name)
+          .addParameter("enrollment", enrollment)
+          .addParameter("id", id) //why do we need the id here but not in others?
+          .executeUpdate();
+      }
+  }
 
-}
+  public void addCourse(Course course) {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "INSERT INTO courses_students (course_id, student_id) VALUES (:course_id, :student_id)";
+      con.createQuery(sql)
+        .addParameter("course_id", course.getId())
+        .addParameter("student_id", this.getId())
+        .executeUpdate();
+    }
+  }
+
+  public ArrayList<Course> getCourses() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "SELECT course_id FROM courses_students WHERE student_id =:student_id";
+      List<Integer> courseIds = con.createQuery(sql)
+        .addParameter("student_id", this.getId())
+        .executeAndFetch(Integer.class);
+
+        ArrayList<Course> courses = new ArrayList<Course>();
+
+      for(Integer index : courseIds) {
+        String courseQuery = "SELECT * FROM courses WHERE id=:index";
+        Course course = con.createQuery(courseQuery)
+          .addParameter("index", index)
+          .executeAndFetchFirst(Course.class);
+        courses.add(course);
+      }return courses;
+    }
+  }
+
+}//ends class Student

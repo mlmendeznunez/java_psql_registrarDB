@@ -73,6 +73,44 @@ public class Course {
     }
   }
 
-  
+  public void update(String course_name, String course_num, String description) {
+    this.course_name = course_name;
+    this.course_num = course_num;
+    this.description = description;
+    try(Connection con = DB.sql2o.open()){
+      String sql = "UPDATE courses SET course_name=:course_name, course_num=:course_num, description=:description WHERE id=:id";
+      con.createQuery(sql) //course_name is not this.course_name due to parameters?
+        .addParameter("course_name", course_name)
+        .addParameter("course_num", course_num)
+        .addParameter("description", description)
+        .addParameter("id", id)
+        .executeUpdate();
+    }
+  }
 
-}
+    public ArrayList<Student> getStudents() {
+      //grabs student ids from a course
+      try(Connection con = DB.sql2o.open()) {
+        String sql = "SELECT student_id FROM courses_students WHERE course_id=:course_id";
+        List<Integer> studentIds = con.createQuery(sql)
+        .addParameter("course_id", this.getId())
+        .executeAndFetch(Integer.class);
+
+        //declare empty array to push all students ids that match to the courseid
+        ArrayList<Student> students = new ArrayList<Student>();
+
+        //looping through the student index in order to grab all students that match course_id
+        for(Integer index : studentIds) { //for index in student Ids
+          String studentQuery = "SELECT * FROM students WHERE Id = :index";
+          Student student = con.createQuery(studentQuery)
+            .addParameter("index", index)
+            .executeAndFetchFirst(Student.class);
+            students.add(student);
+        }return students;
+      }
+
+    }
+
+
+
+  }//ends class Course

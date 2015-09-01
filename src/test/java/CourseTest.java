@@ -36,4 +36,46 @@ public class CourseTest {
     Course savedCourse = Course.find(myCourse.getId());
     assertTrue(myCourse.equals(savedCourse));
   }
+
+  @Test
+  public void update_updatesCourseInfoInDatabase_true() {
+    Course myCourse = new Course("Bubbles", "B001", "water");
+    myCourse.save();
+    String name = "Swimming";
+    String course_num = "S0001";
+    String description = "noodles";
+    myCourse.update(name, course_num, description);
+    assertTrue(Course.all().get(0).getCourseName().equals(name));
+    assertTrue(Course.all().get(0).getCourseNum().equals(course_num));
+    assertTrue(Course.all().get(0).getDescription().equals(description));
+  }
+
+  @Test
+  public void getStudents_returnsAllStudents_List() {
+    Student myStudent = new Student ("Bob", "0001");
+    myStudent.save();
+
+    assertTrue(myStudent.equals(Student.all().get(0)));
+    //assertEquals(Student.all().get(0).equals(myStudent));
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
