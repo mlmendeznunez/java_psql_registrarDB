@@ -29,4 +29,12 @@ public class StudentTest {
        assertTrue(Student.all().get(0).equals(newStudent));
      }
 
+     @Test
+     public void find_findsStudentInDatabase_true() {
+       Student myStudent = new Student("Moop", "morp");
+       myStudent.save();
+       Student savedStudent = Student.find(myStudent.getId());
+       assertTrue(myStudent.equals(savedStudent));
+     }
+
  }

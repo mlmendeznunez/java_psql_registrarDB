@@ -63,4 +63,16 @@ public class Course {
     }
   }
 
+  public static Course find(int id) {
+    try(Connection con = DB.sql2o.open()){
+      String sql ="SELECT * FROM courses WHERE id=:id";
+      Course course = con.createQuery(sql)
+      .addParameter("id", id)
+      .executeAndFetchFirst(Course.class);
+      return course;
+    }
+  }
+
+  
+
 }

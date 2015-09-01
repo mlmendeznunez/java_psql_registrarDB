@@ -28,4 +28,12 @@ public class CourseTest {
     newCourse.save();
     assertTrue(Course.all().get(0).equals(newCourse));
   }
+
+  @Test
+  public void find_findsCourseInDatabase_true() {
+    Course myCourse = new Course("Bubbles", "B001", "water");
+    myCourse.save();
+    Course savedCourse = Course.find(myCourse.getId());
+    assertTrue(myCourse.equals(savedCourse));
+  }
 }

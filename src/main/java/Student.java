@@ -53,5 +53,15 @@ public class Student {
     }
   }
 
+  public static Student find(int id) {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "SELECT * FROM students WHERE id=:id";
+      Student student = con.createQuery(sql)
+        .addParameter("id", id)
+        .executeAndFetchFirst(Student.class);
+      return student;
+    }
+  }
+
 
 }
